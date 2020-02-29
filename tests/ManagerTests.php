@@ -15,9 +15,9 @@ class ManagerTests extends TestCase
     {
         $manager = $this->getManager();
 
-        $this->assertEquals($manager->driver(), 'foo_driver');
-        $this->assertEquals($manager->driver('foo'), 'foo_driver');
-        $this->assertEquals($manager->driver('bar'), 'bar_driver');
+        $this->assertEquals($manager->driver()->doAnything(), 'do_anything_from_foo_driver');
+        $this->assertEquals($manager->driver('foo')->doAnything(), 'do_anything_from_foo_driver');
+        $this->assertEquals($manager->driver('bar')->doAnything(), 'do_anything_from_bar_driver');
     }
 
     /** 
@@ -41,12 +41,24 @@ class ManagerTests extends TestCase
 
             public function createFooDriver()
             {
-                return 'foo_driver';
+                return new class {
+
+                    public function doAnything()
+                    {
+                        return 'do_anything_from_foo_driver';
+                    }
+                };
             }
 
             public function createBarDriver()
             {
-                return 'bar_driver';
+                return new class {
+
+                    public function doAnything()
+                    {
+                        return 'do_anything_from_bar_driver';
+                    }
+                };
             }            
 
             public function getDefaultDriver()
