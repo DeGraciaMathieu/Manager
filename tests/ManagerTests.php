@@ -15,6 +15,7 @@ class ManagerTests extends TestCase
     {
         $manager = $this->getManager();
 
+        $this->assertEquals($manager->doAnything(), 'do_anything_from_foo_driver');
         $this->assertEquals($manager->driver()->doAnything(), 'do_anything_from_foo_driver');
         $this->assertEquals($manager->driver('foo')->doAnything(), 'do_anything_from_foo_driver');
         $this->assertEquals($manager->driver('bar')->doAnything(), 'do_anything_from_bar_driver');
