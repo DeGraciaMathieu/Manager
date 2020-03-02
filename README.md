@@ -15,8 +15,6 @@ Implementation of the Manager pattern existing in Laravel framework.
 
 ## Installation
  
-Run in console below command to download package to your project:
-
 ```
 composer require degraciamathieu/manager
 ```
