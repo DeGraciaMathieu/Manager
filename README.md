@@ -24,7 +24,6 @@ composer require degraciamathieu/manager
 This package offers an abstract class `Manager` which needs to be extended to implement the creation of various Driver classes.
 
 ```php
-
 use DeGraciaMathieu/Manager/Manager;
 
 class LoggerManager extends Manager {
@@ -57,7 +56,6 @@ public function getDefaultDriver()
 In a matter of consistency, all Driver creations (`createClientDriver`, `createMockDriver`...) should return a class which itself implements the same interface, the LoggerDriver contract in this here case.
 
 ```php
-
 interface LoggerDriver {
     public function doAnything();
 }
