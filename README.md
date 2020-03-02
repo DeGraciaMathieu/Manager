@@ -48,7 +48,7 @@ class LoggerManager extends Manager {
 }
 ```
 
-In a matter of consistency, all Driver creations (`createClientDriver`, `createMockDriver`...) should return a class which itself implements the same interface, the `LoggerDriver` contract in this here case.
+In a matter of consistency, all Driver creations (`createClientDriver`, `createMockDriver`...) should return a class which should implement the LoggerDriver interface, the `LoggerDriver` contract in this here case.
 
 ```php
 
