@@ -11,6 +11,8 @@
 
 # DeGraciaMathieu/Manager
 
+Implementation of the pattern Manager existing in Laravel framework.
+
 ## Installation
  
 Run in console below command to download package to your project:
@@ -21,7 +23,7 @@ composer require degraciamathieu/manager
 
 ## Usage
 
-This package offers an abstract class `Manager` which needs to be extended to implement the creation of various Driver classes
+This package offers an abstract class `Manager` which needs to be extended to implement the creation of various Driver classes.
 
 ```php
 
@@ -95,4 +97,4 @@ Or by simply specify the driver which needs to be instantiated.
 
 ## Example:
 
-Usage example of the pattern manager in a Laravel project
+Usage example of the pattern manager in a Laravel project.
