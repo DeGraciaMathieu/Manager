@@ -11,7 +11,7 @@
 
 # DeGraciaMathieu/Manager
 
-Implementation of the pattern Manager existing in Laravel framework.
+Implementation of the Manager pattern existing in Laravel framework.
 
 ## Installation
  
