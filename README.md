@@ -48,6 +48,15 @@ class LoggerManager extends Manager {
 }
 ```
 
+The `getDefaultDriver` method should also be implemented in your class `Manager`, in order to determine which driver has to be created by default. It's also the right spot to determine the default driver from an environment variable, or a configuration.
+
+```php
+public function getDefaultDriver()
+{
+    return env('MANAGER_LOGGER_DEFAULT_DRIVER');
+}
+```
+
 In a matter of consistency, all Driver creations (`createClientDriver`, `createMockDriver`...) should return a class which should implement the LoggerDriver interface, the `LoggerDriver` contract in this here case.
 
 ```php
@@ -70,15 +79,6 @@ class MockDriver implements LoggerDriver {
     {
         echo 'i do anything from the mock driver';
     }
-}
-```
-
-The `getDefaultDriver` method should also be implemented in your class `Manager`, in order to determine which driver has to be created by default. It's also the right spot to determine the default driver from an environment variable, or a configuration.
-
-```php
-public function getDefaultDriver()
-{
-    return env('MANAGER_LOGGER_DEFAULT_DRIVER');
 }
 ```
 
