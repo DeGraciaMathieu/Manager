@@ -95,6 +95,6 @@ Or by simply specify the driver which needs to be instantiated.
 (new LoggerManager())->driver('mock')->doAnything(); // i do anything from the mock driver
 ```
 
-## Example:
+## Example with Laravel:
 
-Usage example of the pattern manager in a Laravel project.
+[Usage example](https://github.com/DeGraciaMathieu/manager-examples) of the pattern manager in a Laravel project.
