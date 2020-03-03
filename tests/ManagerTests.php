@@ -13,7 +13,7 @@ class ManagerTests extends TestCase
      */
     public function make()
     {
-        $manager = $this->getManager();
+        $manager = $this->getManager($cached = false);
 
         $this->assertEquals($manager->doAnything(), 'do_anything_from_foo_driver');
         $this->assertEquals($manager->driver()->doAnything(), 'do_anything_from_foo_driver');
@@ -24,9 +24,23 @@ class ManagerTests extends TestCase
     /** 
      * @test
      */
+    public function make_with_cached_drivers()
+    {
+        $manager = $this->getManager($cached = true);
+
+        $manager->driver('foo')->doAnything();
+        $manager->driver('foo')->doAnything();
+        $manager->driver('foo')->doAnything();
+
+        $this->assertEquals($manager->driver('foo')->doAnything(), 'do_anything_from_foo_driver');
+    }
+
+    /** 
+     * @test
+     */
     public function makeWithUnexpectedDriver()
     {
-        $manager = $this->getManager();
+        $manager = $this->getManager($cached = false);
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -36,9 +50,16 @@ class ManagerTests extends TestCase
     /**
      * @return Anonymous 
      */
-    protected function getManager()
+    protected function getManager(bool $needCache)
     {
-        return new class extends Manager {
+        return new class($needCache) extends Manager {
+
+            public function __construct(bool $needCache) 
+            {
+                parent::__construct();
+
+                $this->cached = $needCache;
+            }
 
             public function createFooDriver()
             {

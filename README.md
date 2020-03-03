@@ -90,6 +90,36 @@ Or by simply specify the driver which needs to be instantiated.
 (new LoggerManager())->driver('monolog')->doAnything(); // i do anything from the monolog driver
 (new LoggerManager())->driver('mock')->doAnything(); // i do anything from the mock driver
 ```
+## Work with cache :
+
+You can also cache the creation of Drivers with the `$cached` property
+
+```php
+use DeGraciaMathieu/Manager/Manager;
+
+class LoggerManager extends Manager {
+
+    /**
+     * @var boolean
+     */
+    protected $cached = true;
+
+    public function createMonologDriver(): LoggerDriver
+    {
+        return new MonologDriver();
+    }    
+}
+```
+
+With the `cached` property you will only create one instance of `MonologDriver`
+
+```php
+$loggerManager = new LoggerManager();
+
+$loggerManager->driver('monolog')->doAnything();
+$loggerManager->driver('monolog')->doAnything();
+$loggerManager->driver('monolog')->doAnything();
+```
 
 ## Example with Laravel:
 
