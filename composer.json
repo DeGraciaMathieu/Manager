@@ -1,9 +1,14 @@
 {
   "name": "degraciamathieu/manager",
-  "description": "",
+  "description": "Implementation of the Manager pattern existing in Laravel framework.",
   "homepage": "https://github.com/degraciamathieu/manager",
   "license": "MIT",
-  "keywords": [],
+  "keywords": [
+    "php",
+    "manager",
+    "laravel",
+    "designpattern"
+  ],
   "authors": [
     {
       "name": "De Gracia Mathieu",
