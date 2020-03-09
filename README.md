@@ -14,6 +14,11 @@
 
 Implementation of the Manager pattern existing in Laravel framework.
 
+* [Installation](#installation)
+* [Usage](#usage)
+* [Work with cache](#work-with-cache-)
+* [Example with Laravel](#example-with-laravel)
+
 ## Installation
  
 ```
