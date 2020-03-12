@@ -2,13 +2,13 @@
 
 namespace DeGraciaMathieu\Manager\Tests\Templates;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use DeGraciaMathieu\Manager\Manager;
+use DeGraciaMathieu\Manager\Exceptions\DriverResolutionException;
 
 class ManagerTests extends TestCase
 {
-    /** 
+    /**
      * @test
      */
     public function make()
@@ -21,7 +21,7 @@ class ManagerTests extends TestCase
         $this->assertEquals($manager->driver('bar')->doAnything(), 'do_anything_from_bar_driver');
     }
 
-    /** 
+    /**
      * @test
      */
     public function make_with_cached_drivers()
@@ -35,26 +35,26 @@ class ManagerTests extends TestCase
         $this->assertEquals($manager->driver('foo')->doAnything(), 'do_anything_from_foo_driver');
     }
 
-    /** 
+    /**
      * @test
      */
     public function makeWithUnexpectedDriver()
     {
         $manager = $this->getManager($cached = false);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(DriverResolutionException::class);
 
         $manager->driver('unexpected');
     }
 
     /**
-     * @return Anonymous 
+     * @return Anonymous
      */
     protected function getManager(bool $needCache)
     {
         return new class($needCache) extends Manager {
 
-            public function __construct(bool $needCache) 
+            public function __construct(bool $needCache)
             {
                 parent::__construct();
 
@@ -81,7 +81,7 @@ class ManagerTests extends TestCase
                         return 'do_anything_from_bar_driver';
                     }
                 };
-            }            
+            }
 
             public function getDefaultDriver()
             {
