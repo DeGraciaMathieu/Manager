@@ -2,9 +2,9 @@
 
 namespace DeGraciaMathieu\Manager\Tests\Templates;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use DeGraciaMathieu\Manager\Manager;
+use DeGraciaMathieu\Manager\Exceptions\DriverResolutionException;
 
 class ManagerTests extends TestCase
 {
@@ -42,7 +42,7 @@ class ManagerTests extends TestCase
     {
         $manager = $this->getManager($cached = false);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(DriverResolutionException::class);
 
         $manager->driver('unexpected');
     }

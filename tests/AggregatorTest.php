@@ -2,9 +2,9 @@
 
 namespace DeGraciaMathieu\Manager\Tests\Templates;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use DeGraciaMathieu\Manager\Aggregator;
+use DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException;
 
 class AggregatorTest extends TestCase
 {
@@ -39,7 +39,7 @@ class AggregatorTest extends TestCase
     {
         $aggregator = new Aggregator();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(DriverOverwrittenException::class);
 
         $aggregator->set('name_1', 'driver_1');
         $aggregator->set('name_1', 'driver_2');
