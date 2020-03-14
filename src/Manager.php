@@ -9,7 +9,7 @@ abstract class Manager
     /**
      * @var boolean
      */
-    protected $cached = false;
+    protected $singleton = false;
 
     /**
      * @var \DeGraciaMathieu\Manager\Aggregator
@@ -72,15 +72,15 @@ abstract class Manager
      */
     protected function load(string $name)
     {
-        if ($this->cached) {
-            return $this->loadWithCache($name);
+        if ($this->singleton) {
+            return $this->loadWithSingleton($name);
         }
 
-        return $this->loadWithoutCache($name);
+        return $this->loadWithoutSingleton($name);
     }
 
     /**
-     * Load a cached driver instance.
+     * Load a singleton driver instance.
      *
      * @param  string  $name
      * @return mixed
@@ -88,7 +88,7 @@ abstract class Manager
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException
      */
-    protected function loadWithCache(string $name)
+    protected function loadWithSingleton(string $name)
     {
         $alreadyLoad = $this->aggregator->has($name);
 
@@ -111,7 +111,7 @@ abstract class Manager
      *
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
      */
-    protected function loadWithoutCache(string $name)
+    protected function loadWithoutSingleton(string $name)
     {
         return $this->makeDriverInstance($name);
     }    

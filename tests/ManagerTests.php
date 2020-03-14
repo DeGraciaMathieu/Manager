@@ -13,7 +13,7 @@ class ManagerTests extends TestCase
      */
     public function make()
     {
-        $manager = $this->getManager($cached = false);
+        $manager = $this->getManager($singleton = false);
 
         $this->assertEquals($manager->doAnything(), 'do_anything_from_foo_driver');
         $this->assertEquals($manager->driver()->doAnything(), 'do_anything_from_foo_driver');
@@ -24,9 +24,9 @@ class ManagerTests extends TestCase
     /** 
      * @test
      */
-    public function make_with_cached_drivers()
+    public function make_with_singleton_drivers()
     {
-        $manager = $this->getManager($cached = true);
+        $manager = $this->getManager($singleton = true);
 
         $manager->driver('foo')->doAnything();
         $manager->driver('foo')->doAnything();
@@ -38,9 +38,9 @@ class ManagerTests extends TestCase
     /** 
      * @test
      */
-    public function makeWithUnexpectedDriver()
+    public function make_with_unexpected_driver()
     {
-        $manager = $this->getManager($cached = false);
+        $manager = $this->getManager($singleton = false);
 
         $this->expectException(DriverResolutionException::class);
 
@@ -50,15 +50,15 @@ class ManagerTests extends TestCase
     /**
      * @return Anonymous 
      */
-    protected function getManager(bool $needCache)
+    protected function getManager(bool $needSingleton)
     {
-        return new class($needCache) extends Manager {
+        return new class($needSingleton) extends Manager {
 
-            public function __construct(bool $needCache) 
+            public function __construct(bool $needSingleton) 
             {
                 parent::__construct();
 
-                $this->cached = $needCache;
+                $this->singleton = $needSingleton;
             }
 
             public function createFooDriver()
