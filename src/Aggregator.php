@@ -2,7 +2,7 @@
 
 namespace DeGraciaMathieu\Manager;
 
-use InvalidArgumentException;
+use DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException;
 
 final class Aggregator
 {
@@ -21,17 +21,17 @@ final class Aggregator
 
     /**
      * Set driver instance
-     * 
+     *
      * @param string $name
      * @param mixed $driver
-     * @throws \InvalidArgumentException
+     * @throws \DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException
      *
      * @return void
      */
     public function set(string $name, $driver)
     {
         if ($this->has($name)) {
-            throw new InvalidArgumentException('Driver [' . $name . '] already registered.');
+            throw new DriverOverwrittenException('Driver [' . $name . '] already registered.');
         }
 
         $this->drivers[$name] = $driver;

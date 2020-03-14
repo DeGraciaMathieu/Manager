@@ -2,7 +2,7 @@
 
 namespace DeGraciaMathieu\Manager;
 
-use InvalidArgumentException;
+use DeGraciaMathieu\Manager\Exceptions\DriverResolutionException;
 
 abstract class Manager
 {
@@ -49,7 +49,8 @@ abstract class Manager
      * @param  string  $name
      * @return mixed
      *
-     * @throws \InvalidArgumentException
+     * @throws \DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException
+     * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
      */
     public function driver($name = null)
     {
@@ -64,8 +65,10 @@ abstract class Manager
      * Load a driver instance.
      *
      * @param  string  $name
-     * 
      * @return mixed
+     *
+     * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
+     * @throws \DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException
      */
     protected function load(string $name)
     {
@@ -78,10 +81,12 @@ abstract class Manager
 
     /**
      * Load a cached driver instance.
-     * 
-     * @param  string $name
-     * 
+     *
+     * @param  string  $name
      * @return mixed
+     *
+     * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
+     * @throws \DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException
      */
     protected function loadWithCache(string $name)
     {
@@ -100,10 +105,11 @@ abstract class Manager
 
     /**
      * Load a driver instance.
-     * 
-     * @param  string $name
-     * 
+     *
+     * @param  string  $name
      * @return mixed
+     *
+     * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
      */
     protected function loadWithoutCache(string $name)
     {
@@ -114,16 +120,16 @@ abstract class Manager
      * Make a new driver instance.
      *
      * @param  string  $name
-     * @throws \InvalidArgumentException
-     * 
      * @return mixed
+     *
+     * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
      */
     protected function makeDriverInstance(string $name)
     {
         $method = 'create' . ucfirst(strtolower($name)) . 'Driver';
 
         if (! method_exists($this, $method)) {
-            throw new InvalidArgumentException('Driver [' . $name . '] not supported.');
+            throw new DriverResolutionException('Driver [' . $name . '] not supported.');
         }
 
         return $this->$method();
