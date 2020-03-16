@@ -126,6 +126,6 @@ $loggerManager->driver('monolog')->doAnything();
 $loggerManager->driver('monolog')->doAnything();
 ```
 
-## Example with Laravel:
+## Example with Laravel
 
 [Usage example](https://github.com/DeGraciaMathieu/manager-examples) of the pattern manager in a Laravel project.
