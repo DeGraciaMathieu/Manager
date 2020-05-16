@@ -30,6 +30,8 @@ composer require degraciamathieu/manager
 This package offers an abstract class `Manager` which needs to be extended to implement the creation of various Driver classes.
 
 ```php
+<?php
+
 use DeGraciaMathieu/Manager/Manager;
 
 class LoggerManager extends Manager {
@@ -54,6 +56,8 @@ class LoggerManager extends Manager {
 The `getDefaultDriver` method should also be implemented in your class `Manager`, in order to determine which driver has to be created by default. It's also the right spot to determine the default driver from an environment variable, or a configuration.
 
 ```php
+<?php
+
 public function getDefaultDriver()
 {
     return env('MANAGER_LOGGER_DEFAULT_DRIVER');
@@ -62,6 +66,8 @@ public function getDefaultDriver()
 In a matter of consistency, all Driver creations (`createClientDriver`, `createMockDriver`...) should return a class which itself implements the same interface, the LoggerDriver contract in this here case.
 
 ```php
+<?php
+
 interface LoggerDriver {
     public function doAnything();
 }
@@ -86,12 +92,16 @@ class MockDriver implements LoggerDriver {
 From now on, it's possible to use your `Manager`, either by using the default driver:
 
 ```php
+<?php
+
 (new LoggerManager())->doAnything(); // i do anything from the monolog driver
 ```
 
 Or by simply specify the driver which needs to be instantiated.
 
 ```php
+<?php
+
 (new LoggerManager())->driver('monolog')->doAnything(); // i do anything from the monolog driver
 (new LoggerManager())->driver('mock')->doAnything(); // i do anything from the mock driver
 ```
@@ -100,6 +110,8 @@ Or by simply specify the driver which needs to be instantiated.
 You can also cache the creation of Drivers with the `$singleton` property
 
 ```php
+<?php
+
 use DeGraciaMathieu/Manager/Manager;
 
 class LoggerManager extends Manager {
@@ -119,6 +131,8 @@ class LoggerManager extends Manager {
 With the `singleton` property you will only create one instance of `MonologDriver`
 
 ```php
+<?php
+
 $loggerManager = new LoggerManager();
 
 $loggerManager->driver('monolog')->doAnything();
