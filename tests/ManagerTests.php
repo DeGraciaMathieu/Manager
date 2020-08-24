@@ -1,6 +1,6 @@
 <?php
 
-namespace DeGraciaMathieu\Manager\Tests\Templates;
+namespace DeGraciaMathieu\Manager\Tests;
 
 use PHPUnit\Framework\TestCase;
 use DeGraciaMathieu\Manager\Manager;
@@ -8,7 +8,7 @@ use DeGraciaMathieu\Manager\Exceptions\DriverResolutionException;
 
 class ManagerTests extends TestCase
 {
-    /** 
+    /**
      * @test
      */
     public function make()
@@ -21,7 +21,7 @@ class ManagerTests extends TestCase
         $this->assertEquals($manager->driver('bar')->doAnything(), 'do_anything_from_bar_driver');
     }
 
-    /** 
+    /**
      * @test
      */
     public function make_with_singleton_drivers()
@@ -35,7 +35,7 @@ class ManagerTests extends TestCase
         $this->assertEquals($manager->driver('foo')->doAnything(), 'do_anything_from_foo_driver');
     }
 
-    /** 
+    /**
      * @test
      */
     public function make_with_unexpected_driver()
@@ -48,13 +48,13 @@ class ManagerTests extends TestCase
     }
 
     /**
-     * @return Anonymous 
+     * @return Anonymous
      */
     protected function getManager(bool $needSingleton)
     {
         return new class($needSingleton) extends Manager {
 
-            public function __construct(bool $needSingleton) 
+            public function __construct(bool $needSingleton)
             {
                 parent::__construct();
 
@@ -81,7 +81,7 @@ class ManagerTests extends TestCase
                         return 'do_anything_from_bar_driver';
                     }
                 };
-            }            
+            }
 
             public function getDefaultDriver()
             {
