@@ -1,6 +1,6 @@
 <?php
 
-namespace DeGraciaMathieu\Manager\Tests\Templates;
+namespace DeGraciaMathieu\Manager\Tests;
 
 use PHPUnit\Framework\TestCase;
 use DeGraciaMathieu\Manager\Aggregator;
@@ -8,7 +8,7 @@ use DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException;
 
 class AggregatorTest extends TestCase
 {
-    /** 
+    /**
      * @test
      */
     public function classic_uses_cases()
@@ -32,7 +32,7 @@ class AggregatorTest extends TestCase
         $this->assertFalse($aggregator->has('unexpected_driver_name'));
     }
 
-    /** 
+    /**
      * @test
      */
     public function driver_already_registered()
