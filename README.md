@@ -21,6 +21,11 @@ Implementation of the Manager pattern existing in Laravel framework.
 
 ## Installation
  
+| Manager | 2.*                | 1.*                |
+|---------|--------------------|--------------------|
+| php 8    | :white_check_mark: | :x:                |
+| php 7    | :x:                | :white_check_mark: |
+ 
 ```
 composer require degraciamathieu/manager
 ```
