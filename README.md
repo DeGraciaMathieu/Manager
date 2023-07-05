@@ -47,7 +47,7 @@ class LoggerManager extends Manager {
         return new MockDriver();
     }
 
-    public function getDefaultDriver()
+    public function getDefaultDriver(): string
     {
         return 'monolog';
     }
@@ -59,7 +59,7 @@ The `getDefaultDriver` method should also be implemented in your class `Manager`
 ```php
 <?php
 
-public function getDefaultDriver()
+public function getDefaultDriver(): string
 {
     return env('MANAGER_LOGGER_DEFAULT_DRIVER');
 }
@@ -70,12 +70,12 @@ In a matter of consistency, all Driver creations (`createClientDriver`, `createM
 <?php
 
 interface LoggerDriver {
-    public function doAnything();
+    public function doAnything(): string;
 }
 
 class MonologDriver implements LoggerDriver {
 
-    public function doAnything()
+    public function doAnything(): string
     {
         echo 'i do anything from the monolog driver';
     }
@@ -83,7 +83,7 @@ class MonologDriver implements LoggerDriver {
 
 class MockDriver implements LoggerDriver {
 
-    public function doAnything()
+    public function doAnything(): string
     {
         echo 'i do anything from the mock driver';
     }
@@ -95,7 +95,7 @@ From now on, it's possible to use your `Manager`, either by using the default dr
 ```php
 <?php
 
-(new LoggerManager())->doAnything(); // i do anything from the monolog driver
+(new LoggerManager())->doAnything(); // i do anything from the default driver
 ```
 
 Or by simply specify the driver which needs to be instantiated.
@@ -125,7 +125,12 @@ class LoggerManager extends Manager {
     public function createMonologDriver(): LoggerDriver
     {
         return new MonologDriver();
-    }    
+    }
+
+    public function getDefaultDriver(): string
+    {
+        return 'monolog';
+    }
 }
 ```
 
