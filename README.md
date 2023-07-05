@@ -108,43 +108,21 @@ Or by simply specify the driver which needs to be instantiated.
 ```
 ## Work with singleton
 
-You can also cache the creation of Drivers with the `$singleton` property
-
-```php
-<?php
-
-use DeGraciaMathieu/Manager/Manager;
-
-class LoggerManager extends Manager {
-
-    /**
-     * @var boolean
-     */
-    protected $singleton = true;
-
-    public function createMonologDriver(): LoggerDriver
-    {
-        return new MonologDriver();
-    }
-
-    public function getDefaultDriver(): string
-    {
-        return 'monolog';
-    }
-}
-```
+You can also cache the creation of Drivers with the `$singleton` property.
 
 With the `singleton` property you will only create one instance of `MonologDriver`
 
 ```php
 <?php
 
-$loggerManager = new LoggerManager();
+$loggerManager = new LoggerManager(singleton: true);
 
 $loggerManager->driver('monolog')->doAnything();
 $loggerManager->driver('monolog')->doAnything();
 $loggerManager->driver('monolog')->doAnything();
 ```
+
+> by default, singleton property value is False
 
 ## Example with Laravel
 
