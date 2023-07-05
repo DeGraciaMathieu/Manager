@@ -6,3 +6,6 @@ up:
 
 test:
 	$(PHP) vendor/bin/phpunit
+
+phpstan:
+	$(PHP) vendor/bin/phpstan
