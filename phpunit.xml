@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" bootstrap="vendor/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage>
-    <include>
-      <directory suffix=".php">./src/</directory>
-    </include>
-    <report>
-      <html outputDirectory="tests/reports/report" lowUpperBound="35" highLowerBound="70"/>
-    </report>
-  </coverage>
-  <testsuites>
-    <testsuite name="Test Suite">
-      <directory suffix=".php">tests/</directory>
-    </testsuite>
-  </testsuites>
-  <logging>
-    <testdoxText outputFile="tests/reports/testdox.txt"/>
-  </logging>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name='tests'>
+            <directory suffix="Test.php">./tests/</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>
