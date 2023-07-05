@@ -1,8 +1,4 @@
 <p align="center">
-<img src="https://i.ibb.co/vq97y2t/laravel-manager.jpg" width="300">
-</p>
-
-<p align="center">
 <a href="https://scrutinizer-ci.com/g/DeGraciaMathieu/Manager/"><img src="https://scrutinizer-ci.com/g/DeGraciaMathieu/Manager/badges/build.png?b=master" alt="Build Status"></a>
 <a href="https://scrutinizer-ci.com/g/DeGraciaMathieu/manager/?branch=master"><img src="https://scrutinizer-ci.com/g/DeGraciaMathieu/manager/badges/coverage.png?b=master" alt="Code Coverage"></a>
 <a href="https://packagist.org/packages/degraciamathieu/manager"><img src="https://img.shields.io/packagist/v/degraciamathieu/manager.svg?style=flat-square" alt="Latest Version on Packagist"></a>
