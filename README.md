@@ -1,8 +1,4 @@
 <p align="center">
-<img src="https://i.ibb.co/vq97y2t/laravel-manager.jpg" width="300">
-</p>
-
-<p align="center">
 <a href="https://scrutinizer-ci.com/g/DeGraciaMathieu/Manager/"><img src="https://scrutinizer-ci.com/g/DeGraciaMathieu/Manager/badges/build.png?b=master" alt="Build Status"></a>
 <a href="https://scrutinizer-ci.com/g/DeGraciaMathieu/manager/?branch=master"><img src="https://scrutinizer-ci.com/g/DeGraciaMathieu/manager/badges/coverage.png?b=master" alt="Code Coverage"></a>
 <a href="https://packagist.org/packages/degraciamathieu/manager"><img src="https://img.shields.io/packagist/v/degraciamathieu/manager.svg?style=flat-square" alt="Latest Version on Packagist"></a>
@@ -20,10 +16,11 @@ Implementation of the Manager pattern existing in Laravel framework.
 
 ## Installation
  
-| Manager | 2.*                | 1.*                |
-|---------|--------------------|--------------------|
-| php 8    | :white_check_mark: | :x:                |
-| php 7    | :x:                | :white_check_mark: |
+| Manager     | 3.*                | 2.*                | 1.*                |
+|-------------|--------------------|--------------------|--------------------|
+| php ^8.1    | :white_check_mark: | :x:                | :x:                |
+| php 8.0.*   | :x:                | :white_check_mark: | :x:                |
+| php 7.*     | :x:                | :x:                | :white_check_mark: |
  
 ```
 composer require degraciamathieu/manager
@@ -50,7 +47,7 @@ class LoggerManager extends Manager {
         return new MockDriver();
     }
 
-    public function getDefaultDriver()
+    public function getDefaultDriver(): string
     {
         return 'monolog';
     }
@@ -62,7 +59,7 @@ The `getDefaultDriver` method should also be implemented in your class `Manager`
 ```php
 <?php
 
-public function getDefaultDriver()
+public function getDefaultDriver(): string
 {
     return env('MANAGER_LOGGER_DEFAULT_DRIVER');
 }
@@ -73,12 +70,12 @@ In a matter of consistency, all Driver creations (`createClientDriver`, `createM
 <?php
 
 interface LoggerDriver {
-    public function doAnything();
+    public function doAnything(): string;
 }
 
 class MonologDriver implements LoggerDriver {
 
-    public function doAnything()
+    public function doAnything(): string
     {
         echo 'i do anything from the monolog driver';
     }
@@ -86,7 +83,7 @@ class MonologDriver implements LoggerDriver {
 
 class MockDriver implements LoggerDriver {
 
-    public function doAnything()
+    public function doAnything(): string
     {
         echo 'i do anything from the mock driver';
     }
@@ -98,7 +95,7 @@ From now on, it's possible to use your `Manager`, either by using the default dr
 ```php
 <?php
 
-(new LoggerManager())->doAnything(); // i do anything from the monolog driver
+(new LoggerManager())->doAnything(); // i do anything from the default driver
 ```
 
 Or by simply specify the driver which needs to be instantiated.
@@ -111,38 +108,21 @@ Or by simply specify the driver which needs to be instantiated.
 ```
 ## Work with singleton
 
-You can also cache the creation of Drivers with the `$singleton` property
-
-```php
-<?php
-
-use DeGraciaMathieu/Manager/Manager;
-
-class LoggerManager extends Manager {
-
-    /**
-     * @var boolean
-     */
-    protected $singleton = true;
-
-    public function createMonologDriver(): LoggerDriver
-    {
-        return new MonologDriver();
-    }    
-}
-```
+You can also cache the creation of Drivers with the `$singleton` property.
 
 With the `singleton` property you will only create one instance of `MonologDriver`
 
 ```php
 <?php
 
-$loggerManager = new LoggerManager();
+$loggerManager = new LoggerManager(singleton: true);
 
 $loggerManager->driver('monolog')->doAnything();
 $loggerManager->driver('monolog')->doAnything();
 $loggerManager->driver('monolog')->doAnything();
 ```
+
+> by default, singleton property value is False
 
 ## Example with Laravel
 

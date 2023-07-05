@@ -6,29 +6,14 @@ use DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException;
 
 final class Aggregator
 {
-    /**
-     * @var array
-     */
-    protected $drivers;
-
-    /**
-     * Welcome
-     */
-    public function __construct()
-    {
-        $this->drivers = [];
-    }
+    public function __construct(
+        protected array $drivers = [],
+    ) {}
 
     /**
      * Set driver instance
-     *
-     * @param string $name
-     * @param mixed $driver
-     * @throws \DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException
-     *
-     * @return void
      */
-    public function set(string $name, $driver)
+    public function set(string $name, $driver): void
     {
         if ($this->has($name)) {
             throw new DriverOverwrittenException('Driver [' . $name . '] already registered.');
@@ -39,32 +24,22 @@ final class Aggregator
 
     /**
      * Get driver instance
-     *
-     * @param  string  $name
-     * 
-     * @return mixed
      */
-    public function get(string $name)
+    public function get(string $name): mixed
     {
         return $this->drivers[$name];
     }
 
     /**
      * Check if driver instance exists
-     *
-     * @param  string  $name
-     * 
-     * @return boolean
      */
-    public function has(string $name)
+    public function has(string $name): bool
     {
         return array_key_exists($name, $this->drivers);
     }   
 
     /**
      * Get all drivers instance
-     *
-     * @return array
      */
     public function all(): array
     {

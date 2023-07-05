@@ -6,53 +6,31 @@ use DeGraciaMathieu\Manager\Exceptions\DriverResolutionException;
 
 abstract class Manager
 {
-    /**
-     * @var boolean
-     */
-    protected $singleton = false;
-
-    /**
-     * @var \DeGraciaMathieu\Manager\Aggregator
-     */
-    protected $aggregator;
-
-    /**
-     * Welcome
-     */
-    public function __construct()
-    {
-        $this->aggregator = new Aggregator();
-    }
+    public function __construct(
+        protected bool $singleton = false,
+        protected Aggregator $aggregator = new Aggregator(),
+    ) {}
 
     /**
      * Get the default driver name.
-     *
-     * @return string
      */
-    abstract public function getDefaultDriver();
+    abstract public function getDefaultDriver(): string;
 
     /**
      * Dynamically call the default driver instance.
-     *
-     * @param  string  $method
-     * @param  array  $parameters
-     * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters): mixed
     {
-        return $this->driver()->$method(...$parameters);
+        return $this->driver()->$method(... $parameters);
     }
 
     /**
      * Get a driver instance.
      *
-     * @param  string  $name
-     * @return mixed
-     *
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
      */
-    public function driver($name = null)
+    public function driver(string $name = null): mixed
     {
         $name = $name ?: $this->getDefaultDriver();
 
@@ -64,31 +42,25 @@ abstract class Manager
     /**
      * Load a driver instance.
      *
-     * @param  string  $name
-     * @return mixed
-     *
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException
      */
-    protected function load(string $name)
+    protected function load(string $name): mixed
     {
         if ($this->singleton) {
             return $this->loadWithSingleton($name);
         }
 
-        return $this->loadWithoutSingleton($name);
+        return $this->makeDriverInstance($name);
     }
 
     /**
      * Load a singleton driver instance.
      *
-     * @param  string  $name
-     * @return mixed
-     *
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException
      */
-    protected function loadWithSingleton(string $name)
+    protected function loadWithSingleton(string $name): mixed
     {
         $alreadyLoad = $this->aggregator->has($name);
 
@@ -104,27 +76,11 @@ abstract class Manager
     }
 
     /**
-     * Load a driver instance.
-     *
-     * @param  string  $name
-     * @return mixed
-     *
-     * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
-     */
-    protected function loadWithoutSingleton(string $name)
-    {
-        return $this->makeDriverInstance($name);
-    }    
-
-    /**
      * Make a new driver instance.
      *
-     * @param  string  $name
-     * @return mixed
-     *
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
      */
-    protected function makeDriverInstance(string $name)
+    protected function makeDriverInstance(string $name): mixed
     {
         $method = 'create' . ucfirst(strtolower($name)) . 'Driver';
 

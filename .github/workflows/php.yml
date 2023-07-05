@@ -4,6 +4,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
+    branches: [ master ]
 
 jobs:
   build:
@@ -12,13 +13,10 @@ jobs:
 
     strategy:
       matrix:
-        php: [8.0, 8.1]
+        php: [8.1, 8.2]
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Validate composer.json and composer.lock
-      run: composer validate
 
     - name: Set PHP version
       uses: shivammathur/setup-php@v2
@@ -26,8 +24,10 @@ jobs:
         php-version: ${{ matrix.php }}
 
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer update --prefer-dist --no-progress --no-suggest
 
     - name: Execute PHPUnit
       run: vendor/bin/phpunit
+
+    - name: Execute PHPStan analyse
+      run: vendor/bin/phpstan
