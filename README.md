@@ -28,98 +28,194 @@ composer require degraciamathieu/manager
 
 ## Usage
 
-This package offers an abstract class `Manager` which needs to be extended to implement the creation of various Driver classes.
+This package offers an abstract class `DeGraciaMathieu\Manager\Manager` which needs to be extended to implement the creation of various Driver classes :
 
 ```php
-<?php
+namespace App\Managers;
 
-use DeGraciaMathieu/Manager/Manager;
+use DeGraciaMathieu\Manager\Manager;
 
-class LoggerManager extends Manager {
+class WeatherManager extends Manager {
 
-    public function createMonologDriver(): LoggerDriver
+    public function createOpenweathermapDriver() 
     {
-        return new MonologDriver();
-    }
-
-    public function createMockDriver(): LoggerDriver
-    {
-        return new MockDriver();
+        return new Openweathermap();
     }
 
     public function getDefaultDriver(): string
     {
-        return 'monolog';
+        return 'openweathermap';
     }
 }
 ```
 
-The `getDefaultDriver` method should also be implemented in your class `Manager`, in order to determine which driver has to be created by default. It's also the right spot to determine the default driver from an environment variable, or a configuration.
+A driver is a class integrating all the logic of an implementation, in our examples the interactions with the APIs of [Openweathermap](https://openweathermap.org/api) :
 
 ```php
-<?php
+namespace App\Managers;
 
-public function getDefaultDriver(): string
-{
-    return env('MANAGER_LOGGER_DEFAULT_DRIVER');
+use DeGraciaMathieu\Manager\Manager;
+
+class Openweathermap {
+
+    public function itsRainingNow(string $city): bool
+    {   
+        // call Openweathermap api to know if it is raining in this city
+
+        return true;
+    }
 }
 ```
-In a matter of consistency, all Driver creations (`createClientDriver`, `createMockDriver`...) should return a class which itself implements the same interface, the LoggerDriver contract in this here case.
+From now on, you can directly call the method of a driver directly from the manager :
 
 ```php
-<?php
+(new WeatherManager())->itsRainingNow('Paris'); // true
+```
 
-interface LoggerDriver {
-    public function doAnything(): string;
-}
+The manager will call the `itsRainingNow` method of the default driver configured by the `getDefaultDriver` method.
 
-class MonologDriver implements LoggerDriver {
+You can also call any driver from the manager's `driver` method :
 
-    public function doAnything(): string
+```php
+(new WeatherManager())->driver('openweathermap')->itsRainingNow('Paris');
+```
+
+Now if you want to create a new implementation, for example if you want to use [Aerisweather](https://www.aerisweather.com/develop/api/) APIs, you just have to create a new driver in your manager :
+
+```php
+namespace App\Managers;
+
+use DeGraciaMathieu\Manager\Manager;
+
+class WeatherManager extends Manager {
+
+    public function createOpenweathermapDriver()
     {
-        echo 'i do anything from the monolog driver';
+        return new Openweathermap();
     }
-}
 
-class MockDriver implements LoggerDriver {
-
-    public function doAnything(): string
+    public function createAerisweatherDriver()
     {
-        echo 'i do anything from the mock driver';
+        return new Aerisweather();
+    }
+
+    public function getDefaultDriver(): string
+    {
+        return 'openweathermap';
+    }
+}
+```
+## Add an interface to the drivers 
+
+For more consistency it is advisable to implement an interface to the different drivers :
+
+```php
+namespace App\Managers;
+
+use DeGraciaMathieu\Manager\Manager;
+
+interface Driver {
+    public function itsRainingNow(string $city): bool;
+}
+```
+
+You obviously need to add this interface to your drivers.
+
+```php
+namespace App\Managers;
+
+use DeGraciaMathieu\Manager\Manager;
+
+class WeatherManager extends Manager {
+
+    public function createOpenweathermapDriver(): Driver
+    {
+        return new Openweathermap();
+    }
+
+    public function createAerisweatherDriver(): Driver
+    {
+        return new Aerisweather();
+    }
+
+    public function getDefaultDriver(): string
+    {
+        return 'openweathermap';
     }
 }
 ```
 
-From now on, it's possible to use your `Manager`, either by using the default driver:
+Now you will be assured that each driver instantiated by the manager will have the same interface.
+
+## Repository class
+
+To control side effects of drivers, it is advisable to create a class encapsulating the instance of a driver, this class is usually called `Repository` :
 
 ```php
-<?php
+namespace App\Managers;
 
-(new LoggerManager())->doAnything(); // i do anything from the default driver
+use DeGraciaMathieu\Manager\Manager;
+
+class WeatherManager extends Manager {
+
+    public function createOpenweathermapDriver(): Repository
+    {
+        $driver = new Openweathermap();
+
+        return new Repository($driver);
+    }
+
+    public function createAerisweatherDriver(): Repository
+    {
+        $driver = new Aerisweather();
+
+        return new Repository($driver);
+    }
+
+    public function getDefaultDriver(): string
+    {
+        return 'openweathermap';
+    }
+}
 ```
 
-Or by simply specify the driver which needs to be instantiated.
+The repository is a class providing a bridge between your application and the driver :
 
 ```php
-<?php
+namespace App\Managers;
 
-(new LoggerManager())->driver('monolog')->doAnything(); // i do anything from the monolog driver
-(new LoggerManager())->driver('mock')->doAnything(); // i do anything from the mock driver
+use DeGraciaMathieu\Manager\Manager;
+
+class Repository {
+
+    public function __construct(
+        private Driver $driver,
+    ){}
+
+    public function itsRainingNow(string $city): bool
+    {
+        return $this->driver->itsRainingNow($city);
+    }
+}
 ```
+Thus, your application will never be aware of which driver it is handling, because it will always be encapsulated in a class repository.
+
+The repository is also a good place if you need to add specific logic for all drivers.
+
 ## Work with singleton
 
 You can also cache the creation of Drivers with the `$singleton` property.
 
-With the `singleton` property you will only create one instance of `MonologDriver`
+With the `singleton` property you will only create one instance of `Openweathermap`
 
 ```php
 <?php
 
-$loggerManager = new LoggerManager(singleton: true);
+$weatherManager = new WeatherManager(singleton: true);
 
-$loggerManager->driver('monolog')->doAnything();
-$loggerManager->driver('monolog')->doAnything();
-$loggerManager->driver('monolog')->doAnything();
+$weatherManager->driver('openweathermap')->itsRainingNow('Paris');
+$weatherManager->driver('openweathermap')->itsRainingNow('Paris');
+$weatherManager->driver('openweathermap')->itsRainingNow('Paris');
 ```
 
 > by default, singleton property value is False
