@@ -54,8 +54,6 @@ A driver is a class integrating all the logic of an implementation, in our examp
 ```php
 namespace App\Managers;
 
-use DeGraciaMathieu\Manager\Manager;
-
 class Openweathermap {
 
     public function itsRainingNow(string $city): bool
