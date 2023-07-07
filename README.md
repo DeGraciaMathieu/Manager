@@ -216,4 +216,4 @@ $weatherManager->driver('openweathermap')->itsRainingNow('Paris');
 
 ## Example with Laravel
 
-[Usage example](https://github.com/DeGraciaMathieu/manager-examples) of the pattern manager in a Laravel project.
+[Usage example](https://github.com/DeGraciaMathieu/manager-laravel-10-examples) of the pattern manager in a Laravel project.
