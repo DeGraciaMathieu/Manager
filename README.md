@@ -206,7 +206,7 @@ The repository is also a good place if you need to add specific logic for all dr
 
 You can also cache the creation of Drivers with the `$singleton` property.
 
-With the `singleton` property you will only create one instance of `Openweathermap`
+With the `singleton` property you will only create one instance of `Openweathermap` driver :
 
 ```php
 <?php
