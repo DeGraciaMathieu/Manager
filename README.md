@@ -184,8 +184,6 @@ The repository is a class providing a bridge between your application and the dr
 ```php
 namespace App\Managers;
 
-use DeGraciaMathieu\Manager\Manager;
-
 class Repository {
 
     public function __construct(
