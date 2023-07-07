@@ -112,8 +112,6 @@ For more consistency it is advisable to implement an interface to the different 
 ```php
 namespace App\Managers;
 
-use DeGraciaMathieu\Manager\Manager;
-
 interface Driver {
     public function itsRainingNow(string $city): bool;
 }
