@@ -19,7 +19,7 @@ Implementation of the Manager pattern existing in Laravel framework.
 | Manager     | 3.*                | 2.*                | 1.*                |
 |-------------|--------------------|--------------------|--------------------|
 | php ^8.1    | :white_check_mark: | :x:                | :x:                |
-| php 8.0.*   | :x:                | :white_check_mark: | :x:                |
+| php 8.0.*   | :white_check_mark: | :white_check_mark: | :x:                |
 | php 7.*     | :x:                | :x:                | :white_check_mark: |
  
 ```
