@@ -103,6 +103,9 @@ class WeatherManager extends Manager {
     }
 }
 ```
+
+> Tip, the `getDefaultDriver` method is the perfect place to use a configuration or environment variable !
+
 ## Add an interface to the drivers 
 
 For more consistency it is advisable to implement an interface to the different drivers :
