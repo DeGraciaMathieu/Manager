@@ -195,6 +195,9 @@ class Repository {
     }
 }
 ```
+
+> This repository class is an anti-corruption layer
+
 Thus, your application will never be aware of which driver it is handling, because it will always be encapsulated in a class repository.
 
 The repository is also a good place if you need to add specific logic for all drivers.
