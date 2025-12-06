@@ -6,10 +6,15 @@ use DeGraciaMathieu\Manager\Exceptions\DriverResolutionException;
 
 abstract class Manager
 {
+    protected Aggregator $aggregator;
+
     public function __construct(
         protected bool $singleton = false,
-        protected Aggregator $aggregator = new Aggregator(),
-    ) {}
+        ?Aggregator $aggregator = null,
+    ) {
+        // php8.0 retro-compatibility
+        $this->aggregator = $aggregator ?? new Aggregator();
+    }
 
     /**
      * Get the default driver name.
@@ -30,7 +35,7 @@ abstract class Manager
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
      */
-    public function driver(string $name = null): mixed
+    public function driver(?string $name = null): mixed
     {
         $name = $name ?: $this->getDefaultDriver();
 
