@@ -30,7 +30,7 @@ abstract class Manager
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverOverwrittenException
      * @throws \DeGraciaMathieu\Manager\Exceptions\DriverResolutionException
      */
-    public function driver(string $name = null): mixed
+    public function driver(?string $name = null): mixed
     {
         $name = $name ?: $this->getDefaultDriver();
 
